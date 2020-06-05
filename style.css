@@ -1,0 +1,19 @@
+.main-container {
+  display: flex;
+}
+
+.main-container > div{
+  margin-right: 10px;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.block {
+  display: block;
+}
+
+.statusButton {
+  margin-right: 10px;
+}
