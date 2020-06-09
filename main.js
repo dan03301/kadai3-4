@@ -24,15 +24,11 @@ const filterWorking = (todos) => {
 }
 
 add.addEventListener('click', () => {
-  if (!task.value == '' && !radioGroup[2].checked) {
+  if (!task.value == '') {
     const todo = { task: `${task.value}`, status: '作業中' };
     todos.push(todo); // 追加
-    showTodos(todos);
-  } else if (!task.value == '' && radioGroup[2].checked) {
-    const todo = { task: `${task.value}`, status: '作業中' };
-    todos.push(todo); // 追加
-    filterCompleted(todos);
-  } else {
+    changeShowTodos();
+  }  else {
     alert('タスクを入力してください。');
   }
 });
@@ -62,10 +58,11 @@ const showTodos = (todos) => {
     table.appendChild(createTr);
 
     removeFunc.addEventListener('click' , () => {
-      deleteFunc(index);
+      deleteFunc(todo);
     });
     statusFunc.addEventListener('click', () => {
-      statusChangeFunc(todo ,statusFunc);
+      statusChangeFunc(todo, statusFunc);
+      changeShowTodos();
     });
 
   });
@@ -76,15 +73,19 @@ const showTodos = (todos) => {
 
 const buttonFunc = () => {
   radioGroup.addEventListener('change', () => {
-    if (radioGroup[0].checked) {
-      showTodos(todos);
-    } else if (radioGroup[1].checked) {
-      filterWorking(todos)
-    } else if (radioGroup[2].checked) {
-      filterCompleted(todos);
-    }
+    changeShowTodos();
   });
 };
+
+function changeShowTodos() {
+  if (radioGroup[0].checked) {
+    showTodos(todos);
+  } else if (radioGroup[1].checked) {
+    filterWorking(todos);
+  } else if (radioGroup[2].checked) {
+    filterCompleted(todos);
+  }
+}
 
 function removeChilds() {
   while (table.children[1]) {
@@ -109,9 +110,11 @@ function createRemoveButtonFunc(index) {
   return createRemoveButton;
 }
 
-const deleteFunc = (index) => {
-    todos.splice(index, 1);
-    showTodos(todos);
+const deleteFunc = (value) => {
+  var index = todos.indexOf(value);
+  todos.splice(index, 1);
+  
+  changeShowTodos();
 };
 
 const statusChangeFunc = (todo, statusButton) => {
