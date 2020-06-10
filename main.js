@@ -37,10 +37,8 @@ const showTodos = (todos) => {
   removeChilds();
 
   todos.forEach((todo, index) => {
-    const createId = document.createElement('td');
     const createComment = document.createElement('td');
 
-    createId.textContent = index;
     createComment.textContent = todo.task;
 
     const createTr = document.createElement('tr');
@@ -48,10 +46,11 @@ const showTodos = (todos) => {
 
     const statusFunc = createStatusButtonFunc(todo.status, index);
     const removeFunc = createRemoveButtonFunc(index);
+    const appendId = createIdFunc(todo);
 
     createStatus.appendChild(statusFunc);
     createStatus.appendChild(removeFunc);
-    createTr.appendChild(createId);
+    createTr.appendChild(appendId);
     createTr.appendChild(createComment);
     createTr.appendChild(createStatus);
 
@@ -85,6 +84,13 @@ function changeShowTodos() {
   } else if (radioGroup[2].checked) {
     filterCompleted(todos);
   }
+}
+
+const createIdFunc = (todo) => {
+  const createId = document.createElement('td');
+  createId.textContent = todos.indexOf(todo);
+
+  return createId;
 }
 
 function removeChilds() {
